@@ -1,0 +1,61 @@
+.app-logo {
+  height: 32px;
+  margin: 16px;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.breadcrumb-container {
+  margin-bottom: 16px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1A6B3C;
+  margin: 0;
+}
+
+.stats-card {
+  text-align: center;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.stats-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.stats-value {
+  font-size: 36px;
+  font-weight: bold;
+  color: #1A6B3C;
+  margin: 12px 0;
+}
+
+.stats-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.invoice-form-section {
+  margin-bottom: 24px;
+}
+
+.invoice-form-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #1A6B3C;
+  border-bottom: 2px solid #1A6B3C;
+  padding-bottom: 8px;
+}
