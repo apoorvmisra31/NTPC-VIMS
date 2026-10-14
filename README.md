@@ -25,44 +25,44 @@ The invoice lifecycle is driven by an atomic, transactional state machine manage
 
 ```mermaid
 flowchart TD
-    Vendor([Vendor Submission]) -->|Status: Submitted / Role: VPD| VPD_Desk[Stage 1: VIM Processing Desk (VPD)]
+    Vendor(["Vendor Submission"]) -->|"Status: Submitted / Role: VPD"| VPD_Desk["Stage 1: VIM Processing Desk (VPD)"]
 
     subgraph S1["Stage 1: VPD Desk"]
-        VPD_Desk --> S1_Action{DP Validation &<br/>Exceptions Resolved?}
-        S1_Action -->|Approve| EIC_Desk[Stage 2: Engineer-in-Charge (EIC)]
-        S1_Action -->|Reject (requires reason)| RetVendor[Return to Vendor<br/>Status: Rejected / Role: VENDOR]
-        S1_Action -->|Clarify| ClarV1[Public Question to Vendor]
+        VPD_Desk --> S1_Action{"DP Validation & Exceptions Resolved?"}
+        S1_Action -->|"Approve"| EIC_Desk["Stage 2: Engineer-in-Charge (EIC)"]
+        S1_Action -->|"Reject (Reason Required)"| RetVendor["Return to Vendor (Status: Rejected / Role: VENDOR)"]
+        S1_Action -->|"Clarify"| ClarV1["Public Question to Vendor"]
     end
 
     subgraph S2["Stage 2: EIC Certification"]
-        EIC_Desk --> S2_Action{Technical & GR/SES<br/>Certification OK?}
-        S2_Action -->|Approve| VPG_Desk[Stage 3: Vendor Payment Group (VPG)]
-        S2_Action -->|Reject| VPD_Desk
-        S2_Action -->|Clarify| ClarV2[Clarification Request]
+        EIC_Desk --> S2_Action{"Technical & GR/SES Certification OK?"}
+        S2_Action -->|"Approve"| VPG_Desk["Stage 3: Vendor Payment Group (VPG)"]
+        S2_Action -->|"Reject"| VPD_Desk
+        S2_Action -->|"Clarify"| ClarV2["Clarification Request"]
     end
 
     subgraph S3["Stage 3: VPG Deductions"]
-        VPG_Desk --> VPG_Action[Apply Deductions:<br/>Retention %, Advance, Penalty]
-        VPG_Action --> S3_Action{Commercial Audit<br/>Passed?}
-        S3_Action -->|Forward| Fin_Desk[Stage 4: Finance Department]
-        S3_Action -->|Reject| EIC_Desk
+        VPG_Desk --> VPG_Action["Apply Deductions: Retention %, Advance, Penalty"]
+        VPG_Action --> S3_Action{"Commercial Audit Passed?"}
+        S3_Action -->|"Forward"| Fin_Desk["Stage 4: Finance Department"]
+        S3_Action -->|"Reject"| EIC_Desk
     end
 
     subgraph S4["Stage 4: Finance Treasury"]
-        Fin_Desk --> S4_Action{Treasury Review}
-        S4_Action -->|Hold| Fin_Hold[Status: ON_HOLD / Role: FINANCE]
-        Fin_Hold -->|Release Hold| Fin_Desk
-        S4_Action -->|Reject| VPG_Desk
-        S4_Action -->|Approve Payment<br/>(Input UTR & Method)| Paid_State[Stage 5: Completed<br/>Status: Paid / Role: SYSTEM]
+        Fin_Desk --> S4_Action{"Treasury Review"}
+        S4_Action -->|"Hold"| Fin_Hold["Status: ON_HOLD / Role: FINANCE"]
+        Fin_Hold -->|"Release Hold"| Fin_Desk
+        S4_Action -->|"Reject"| VPG_Desk
+        S4_Action -->|"Approve Payment"| Paid_State["Stage 5: Completed (Status: Paid / Role: SYSTEM)"]
     end
 
     subgraph S5["Stage 5: Disbursement"]
-        Paid_State --> GenAdvice[Generate Payment Record & PDF Payment Advice]
-        GenAdvice --> Complete([Workflow Closed])
+        Paid_State --> GenAdvice["Generate Payment Record & PDF Payment Advice"]
+        GenAdvice --> Complete(["Workflow Closed"])
     end
 
-    RetVendor -.->|Resubmit Bill| VPD_Desk
-    ClarV1 -.->|Vendor Reply| VPD_Desk
+    RetVendor -.->|"Resubmit Bill"| VPD_Desk
+    ClarV1 -.->|"Vendor Reply"| VPD_Desk
 ```
 
 ### State & Role Progression
